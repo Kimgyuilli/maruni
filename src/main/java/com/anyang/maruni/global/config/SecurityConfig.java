@@ -52,6 +52,14 @@ public class SecurityConfig {
         return new BCryptPasswordEncoder();
     }
 
+    /**
+     * Configures and returns the application's security filter chain.
+     *
+     * Disables CSRF protection, form login, and HTTP Basic authentication. Configures CORS to allow all origins, methods, and headers, and exposes the "Authorization" header. Sets session management to stateless and permits all HTTP requests without authentication. Responds with HTTP 401 Unauthorized for authentication failures.
+     *
+     * @return the configured SecurityFilterChain
+     * @throws Exception if an error occurs during security configuration
+     */
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http, AuthenticationManager authManager) throws Exception {
 

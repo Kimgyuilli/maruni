@@ -22,6 +22,15 @@ public class WhisperApiClient implements SttClient {
 
     private final WebClient openAiWebClient;
 
+    /**
+     * Sends an audio file to the Whisper API for speech-to-text transcription and returns the transcription result.
+     *
+     * The audio file is converted to a temporary file and sent as multipart form data along with model and language parameters.
+     * The API response is returned as a string. The temporary file is deleted after the operation completes.
+     *
+     * @param audioFile the audio file to be transcribed
+     * @return the transcription result from the Whisper API as a string
+     */
     @Override
     public String transcribe(MultipartFile audioFile) {
         File tempFile = convertMultipartToFile(audioFile);
@@ -48,6 +57,13 @@ public class WhisperApiClient implements SttClient {
         }
     }
 
+    /**
+     * Converts a {@link MultipartFile} to a temporary WAV file on disk.
+     *
+     * @param file the multipart audio file to convert
+     * @return a temporary file containing the audio data
+     * @throws RuntimeException if an I/O error occurs during file creation or writing
+     */
     private File convertMultipartToFile(MultipartFile file) {
         try {
             File convFile = File.createTempFile("audio", ".wav");

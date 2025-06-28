@@ -19,12 +19,24 @@ public class VoiceChatController {
 
     private final AudioProcessingService audioProcessingService;
 
+    /**
+     * Handles a POST request to transcribe an uploaded audio file into text.
+     *
+     * @param audioFile the audio file to be transcribed, provided as a multipart form parameter named "file"
+     * @return a ResponseEntity containing the transcription result as a ConversationResponse
+     */
     @PostMapping
     public ResponseEntity<ConversationResponse> transcribeAudio(@RequestParam("file") MultipartFile audioFile) {
         Conversation conversation = audioProcessingService.processAudio(audioFile);
         return ResponseEntity.ok(new ConversationResponse(conversation));
     }
 
+    /**
+     * Processes the provided audio file by transcribing its content and synthesizing a response as speech.
+     *
+     * @param audioFile the uploaded audio file to be transcribed and synthesized
+     * @return an HTTP response containing the synthesized audio as an MPEG byte array, with headers set for inline playback
+     */
     @PostMapping(value = "/tts", produces = "audio/mpeg")
     public ResponseEntity<byte[]> transcribeAndSynthesize(@RequestParam("file") MultipartFile audioFile) {
         byte[] ttsAudio = audioProcessingService.processAudioAndSynthesize(audioFile);
