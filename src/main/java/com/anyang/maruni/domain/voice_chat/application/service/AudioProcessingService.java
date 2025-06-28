@@ -19,12 +19,24 @@ public class AudioProcessingService {
     private final TtsClient ttsClient;
     private final ConversationService conversationService;
 
+    /**
+     * Processes an audio file by transcribing it to text, generating a response using a language model, and saving the conversation.
+     *
+     * @param audioFile the audio file to be processed
+     * @return the saved Conversation entity containing the transcription and generated response
+     */
     public Conversation processAudio(MultipartFile audioFile) {
         String sttText = sttClient.transcribe(audioFile);
         String llmResponse = llmClient.chat(sttText);
         return conversationService.save(sttText, llmResponse);
     }
 
+    /**
+     * Processes an audio file by transcribing speech to text, generating a response using a language model, saving the conversation, and synthesizing the response into speech audio.
+     *
+     * @param audioFile the audio file to process
+     * @return a byte array containing the synthesized speech audio of the generated response
+     */
     public byte[] processAudioAndSynthesize(MultipartFile audioFile) {
         String sttText = sttClient.transcribe(audioFile);
         String llmResponse = llmClient.chat(sttText);

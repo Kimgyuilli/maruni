@@ -13,6 +13,12 @@ public class TtsApiClient implements TtsClient {
 
     private final WebClient openAiWebClient;
 
+    /**
+     * Synthesizes speech audio from the provided text using an external text-to-speech API.
+     *
+     * @param text the input text to be converted to speech
+     * @return a byte array containing the synthesized speech audio
+     */
     @Override
     public byte[] synthesizeSpeech(String text) {
 

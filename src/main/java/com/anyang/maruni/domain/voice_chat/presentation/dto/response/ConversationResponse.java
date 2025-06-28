@@ -13,6 +13,11 @@ public class ConversationResponse {
     private final String gptResponse;
     private final LocalDateTime createdAt;
 
+    /**
+     * Constructs a ConversationResponse by extracting relevant data from the given Conversation entity.
+     *
+     * @param conversation the Conversation entity from which to initialize response fields
+     */
     public ConversationResponse(Conversation conversation) {
         this.id = conversation.getId();
         this.sttText = conversation.getSttText();

@@ -17,6 +17,14 @@ public class OpenAiChatClient implements LlmClient {
 
     private final WebClient openAiWebClient;
 
+    /**
+     * Sends a user prompt to the OpenAI chat completion API and returns the generated response.
+     *
+     * The prompt is sent along with a predefined system message specifying the assistant's role as a kind elderly care assistant. The response is limited to 100 tokens. If the response cannot be parsed, an empty string is returned.
+     *
+     * @param prompt the user's input message to send to the OpenAI model
+     * @return the generated response from the OpenAI model, or an empty string if parsing fails
+     */
     @Override
     public String chat(String prompt) {
         Map<String, Object> requestBody = Map.of(

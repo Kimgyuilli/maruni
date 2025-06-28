@@ -19,6 +19,11 @@ public class ConversationController {
 
     private final ConversationRepository conversationRepository;
 
+    /**
+     * Retrieves all conversations and returns them as a list of response DTOs.
+     *
+     * @return HTTP 200 OK response containing a list of all conversations.
+     */
     @GetMapping
     public ResponseEntity<List<ConversationResponse>> getAllConversations() {
         List<Conversation> conversations = conversationRepository.findAll();
@@ -28,6 +33,12 @@ public class ConversationController {
         return ResponseEntity.ok(responses);
     }
 
+    /**
+     * Retrieves all conversations associated with the specified user ID.
+     *
+     * @param userId the ID of the user whose conversations are to be retrieved
+     * @return a ResponseEntity containing a list of ConversationResponse objects for the user
+     */
     @GetMapping("/user/{userId}")
     public ResponseEntity<List<ConversationResponse>> getConversationsByUserId(@PathVariable Long userId) {
         List<Conversation> conversations = conversationRepository.findByUser_UserId(userId);

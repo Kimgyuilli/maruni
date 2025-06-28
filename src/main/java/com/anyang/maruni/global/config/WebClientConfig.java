@@ -12,6 +12,13 @@ public class WebClientConfig {
     @Value("${openai.api.key}")
     private String openAiApiKey;
 
+    /**
+     * Creates and configures a {@link WebClient} bean for interacting with the OpenAI API.
+     *
+     * The returned WebClient is preconfigured with the OpenAI API base URL, includes the API key as a Bearer token in the Authorization header for all requests, and sets the maximum in-memory buffer size for responses to 10 MB.
+     *
+     * @return a configured WebClient instance for OpenAI API requests
+     */
     @Bean
     public WebClient openAiWebClient() {
         return WebClient.builder()
