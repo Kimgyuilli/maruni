@@ -2,6 +2,7 @@ plugins {
 	id 'java'
 	id 'org.springframework.boot' version '3.5.3'
 	id 'io.spring.dependency-management' version '1.1.7'
+	id 'jacoco'
 }
 
 group = 'com.anyang'
@@ -82,4 +83,58 @@ dependencies {
 
 tasks.named('test') {
 	useJUnitPlatform()
+	finalizedBy jacocoTestReport
 }
+
+jacocoTestReport {
+	dependsOn test
+	reports {
+		xml.required = true
+		html.required = true
+		csv.required = false
+	}
+	executionData fileTree(project.rootDir.absolutePath).include("**/build/jacoco/*.exec")
+}
+
+jacocoTestCoverageVerification {
+	dependsOn jacocoTestReport
+	violationRules {
+		rule {
+			limit {
+				minimum = 0.85  // 85% 커버리지 요구
+			}
+		}
+		rule {
+			enabled = true
+			element = 'CLASS'
+			excludes = [
+				'*.config.*',
+				'*.dto.*',
+				'*.entity.*',
+				'*.*Application',
+				'*.exception.*'
+			]
+		}
+	}
+}
+
+// TDD를 위한 테스트 태스크 설정
+task unitTest(type: Test) {
+	description = 'Runs unit tests.'
+	group = 'verification'
+	useJUnitPlatform {
+		excludeTags 'integration'
+	}
+	shouldRunAfter test
+}
+
+task integrationTest(type: Test) {
+	description = 'Runs integration tests.'
+	group = 'verification' 
+	useJUnitPlatform {
+		includeTags 'integration'
+	}
+	shouldRunAfter unitTest
+}
+
+check.dependsOn jacocoTestCoverageVerification
