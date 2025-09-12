@@ -180,4 +180,21 @@ application-local.yml
 application-*.yml
 !application.yml
 
+### Project Specific ###
+# Log files
+log.txt
+*.log
+*.log.*
+
+# Docker volumes
+docker/
+
+# Documentation drafts (keep main docs)
+docs/drafts/
+*.draft.md
+
+# Temporary files
+*.tmp
+*.temp
+
 # End of https://www.toptal.com/developers/gitignore/api/intellij,java,git,redis
