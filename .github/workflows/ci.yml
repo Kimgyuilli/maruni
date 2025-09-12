@@ -57,23 +57,31 @@ jobs:
     - name: Run unit tests
       env:
         SPRING_PROFILES_ACTIVE: test
-        DB_USERNAME: test_user
-        DB_PASSWORD: test_password
-        REDIS_PASSWORD: ""
-        JWT_SECRET_KEY: test-secret-key-for-ci-environment-minimum-32-characters
-        JWT_ACCESS_EXPIRATION: 3600000
-        JWT_REFRESH_EXPIRATION: 86400000
+        SPRING_DATASOURCE_URL: jdbc:h2:mem:testdb;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
+        SPRING_DATASOURCE_USERNAME: sa
+        SPRING_DATASOURCE_PASSWORD: ""
+        SPRING_DATASOURCE_DRIVER_CLASS_NAME: org.h2.Driver
+        SPRING_DATA_REDIS_HOST: localhost
+        SPRING_DATA_REDIS_PORT: 6379
+        SPRING_DATA_REDIS_PASSWORD: ""
+        JWT_SECRET: test-jwt-secret-key-for-testing-minimum-32-characters-required-for-security
+        JWT_ACCESS_TOKEN_EXPIRATION: 3600000
+        JWT_REFRESH_TOKEN_EXPIRATION: 86400000
       run: ./gradlew test --info
 
     - name: Run integration tests
       env:
         SPRING_PROFILES_ACTIVE: test
-        DB_USERNAME: test_user
-        DB_PASSWORD: test_password
-        REDIS_PASSWORD: ""
-        JWT_SECRET_KEY: test-secret-key-for-ci-environment-minimum-32-characters
-        JWT_ACCESS_EXPIRATION: 3600000
-        JWT_REFRESH_EXPIRATION: 86400000
+        SPRING_DATASOURCE_URL: jdbc:h2:mem:testdb;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
+        SPRING_DATASOURCE_USERNAME: sa
+        SPRING_DATASOURCE_PASSWORD: ""
+        SPRING_DATASOURCE_DRIVER_CLASS_NAME: org.h2.Driver
+        SPRING_DATA_REDIS_HOST: localhost
+        SPRING_DATA_REDIS_PORT: 6379
+        SPRING_DATA_REDIS_PASSWORD: ""
+        JWT_SECRET: test-jwt-secret-key-for-testing-minimum-32-characters-required-for-security
+        JWT_ACCESS_TOKEN_EXPIRATION: 3600000
+        JWT_REFRESH_TOKEN_EXPIRATION: 86400000
       run: ./gradlew integrationTest --continue || echo "Integration tests will be added as we develop"
 
     - name: Generate test report
@@ -115,7 +123,10 @@ jobs:
     - name: Run code quality checks
       env:
         SPRING_PROFILES_ACTIVE: test
-        JWT_SECRET_KEY: test-secret-key-for-ci-environment-minimum-32-characters
+        SPRING_DATASOURCE_URL: jdbc:h2:mem:testdb;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
+        SPRING_DATASOURCE_USERNAME: sa
+        SPRING_DATASOURCE_PASSWORD: ""
+        JWT_SECRET: test-jwt-secret-key-for-testing-minimum-32-characters-required-for-security
       run: |
         ./gradlew check --continue || echo "Code quality checks configured"
         ./gradlew jacocoTestReport || echo "JaCoCo test coverage will be configured"
